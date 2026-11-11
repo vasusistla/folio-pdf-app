@@ -1,0 +1,83 @@
+/* Folio PDF on a phone or tablet (the web version only). The Windows app never loads this file. */
+
+/* the ☰ menu button and panel (from src/web/host.js) */
+.web-menu-btn { order: -100; flex: none; }
+.web-menu { position: fixed; inset: 0; z-index: 110; background: rgba(0, 0, 0, 0.32); display: flex; }
+.web-menu-card {
+  width: min(330px, 86vw); height: 100%; overflow-y: auto; background: var(--chrome); box-shadow: var(--shadow);
+  padding: calc(8px + env(safe-area-inset-top)) 0 calc(16px + env(safe-area-inset-bottom)); animation: web-in 0.16s ease-out;
+}
+@keyframes web-in { from { transform: translateX(-24px); opacity: 0; } to { transform: none; opacity: 1; } }
+.web-menu-head { display: flex; align-items: center; justify-content: space-between; padding: 6px 16px 10px; font-size: 16px; }
+.web-menu-section { padding: 4px 0 6px; border-top: 1px solid var(--border); }
+.web-menu-section h3 { margin: 8px 16px 2px; font-size: 12px; font-weight: 600; color: var(--text-3); }
+.web-menu-item {
+  display: flex; align-items: center; gap: 6px; width: 100%; min-height: 42px; padding: 0 16px 0 10px;
+  border: 0; background: none; color: var(--text); font: inherit; font-size: 15px; text-align: left;
+}
+.web-menu-item:active:not(:disabled) { background: var(--active); }
+.web-menu-item:disabled { color: var(--text-3); }
+.web-menu-check { width: 18px; flex: none; color: var(--accent); text-align: center; }
+.web-menu-sep { border: 0; border-top: 1px solid var(--border); margin: 4px 16px; }
+.web-menu-sub summary { min-height: 42px; display: flex; align-items: center; padding: 0 16px 0 34px; font-size: 15px; list-style: none; }
+.web-menu-sub summary::after { content: '›'; margin-left: auto; color: var(--text-3); font-size: 18px; }
+.web-menu-sub[open] summary::after { transform: rotate(90deg); }
+.web-menu-sub .web-menu-item { padding-left: 28px; }
+
+/* the "saved — share or save to Files" sheet */
+.web-sheet { position: fixed; inset: 0; z-index: 125; display: flex; align-items: flex-end; justify-content: center; background: rgba(0, 0, 0, 0); transition: background 0.18s; }
+.web-sheet.show { background: rgba(0, 0, 0, 0.3); }
+.web-sheet-card {
+  width: min(520px, 100%); background: var(--modal-bg); border-radius: 16px 16px 0 0; box-shadow: var(--shadow);
+  padding: 18px 20px calc(18px + env(safe-area-inset-bottom)); transform: translateY(30px); transition: transform 0.18s;
+}
+.web-sheet.show .web-sheet-card { transform: none; }
+.web-sheet-title { margin: 0 0 4px; font-weight: 600; font-size: 15px; overflow-wrap: anywhere; }
+.web-sheet-text { margin: 0 0 14px; color: var(--text-2); }
+.web-sheet-actions { display: flex; flex-direction: column; gap: 8px; }
+.web-sheet-actions .btn { height: 44px; font-size: 15px; }
+
+/* the "new version ready" bar */
+.web-update { position: fixed; left: 50%; bottom: calc(18px + env(safe-area-inset-bottom)); transform: translateX(-50%); z-index: 121; display: flex; align-items: center; gap: 12px; padding: 8px 8px 8px 16px; border-radius: 12px; background: var(--modal-bg); box-shadow: var(--shadow); white-space: nowrap; }
+
+/* pinch zoom belongs to the pages, not the whole app */
+#viewerContainer { touch-action: pan-x pan-y; -webkit-overflow-scrolling: touch; }
+html, body { overscroll-behavior: none; -webkit-text-size-adjust: 100%; }
+body { -webkit-tap-highlight-color: transparent; }
+
+/* ---------------------------------------------------------------- narrow screens (phones) */
+@media (max-width: 760px) {
+  #toolbar {
+    height: calc(var(--tb-h) + env(safe-area-inset-top)); padding: env(safe-area-inset-top) 4px 0;
+    overflow-x: auto; overflow-y: hidden; scrollbar-width: none;
+  }
+  #toolbar::-webkit-scrollbar { display: none; }
+  .tb-group { flex: none; }
+  .tb-spacer { flex: 0 0 4px; }
+  .tb-btn { min-width: 38px; height: 36px; }
+  .tb-btn.has-label span { display: none; }
+  /* rarely needed on a phone; still in the ☰ menu */
+  #toolbar [data-command="view.present"], #toolbar [data-command="file.print"], #toolbar [data-command="view.rotate-cw"], #toolbar [data-command="theme.toggle"],
+  #toolbar [data-command="zoom.in"], #toolbar [data-command="zoom.out"] { display: none; }
+  .zoom-select { width: 92px; }
+  #toolOptions { overflow-x: auto; padding: 4px 8px; }
+  .tool-options { flex-wrap: nowrap; gap: 12px; }
+  #toolOptions .opt-hint { display: none; }
+  #toolOptions .opt-field, #toolOptions .opt-actions { white-space: nowrap; flex: none; }
+
+  /* the sidebar floats over the pages instead of squeezing them */
+  #sidebar { position: absolute; top: 0; bottom: 0; left: 0; z-index: 30; width: min(260px, 78vw); box-shadow: var(--shadow); }
+  #sidebarResizer { display: none !important; }
+
+  .welcome-card { padding: 28px 0 calc(28px + env(safe-area-inset-bottom)); }
+  .welcome-card .btn.big { width: 100%; margin: 0 0 10px; justify-content: center; }
+  #welcomeScan { margin-left: 0; display: flex; }
+  .welcome-hint { display: none; }
+
+  .modal { width: calc(100vw - 24px) !important; max-height: calc(100vh - 40px); }
+  .findbar { left: 8px; right: 8px; top: 8px; }
+  .find-input { width: auto; flex: 1; min-width: 0; }
+  #toasts { bottom: calc(18px + env(safe-area-inset-bottom)); width: calc(100vw - 32px); }
+  .toast { max-width: 100%; }
+  :where(#toolbar, .modal, .findbar, .scanner, .web-menu) :is(input, select, textarea) { font-size: 16px; }
+}

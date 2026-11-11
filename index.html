@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Folio PDF">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="theme-color" content="#fbfbfc" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#242428" media="(prefers-color-scheme: dark)">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icons/icon-180.png">
+  <link rel="icon" type="image/png" href="icons/icon-192.png">
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:; font-src 'self' blob: data:; worker-src 'self' blob:; connect-src 'self' blob: data:; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>Folio PDF</title>
+  <link rel="stylesheet" href="node_modules/pdfjs-dist/legacy/web/pdf_viewer.css">
+  <link rel="stylesheet" href="src/renderer/styles/app.css">
+  <link rel="stylesheet" href="src/renderer/styles/scan.css">
+  <link rel="stylesheet" href="src/renderer/styles/phone.css">
+  <script type="module" src="src/web/host.js"></script>
+  <script type="module" src="src/renderer/app.js"></script>
+</head>
+<body class="no-doc">
+  <header id="toolbar" role="toolbar" aria-label="Main toolbar">
+    <div class="tb-group doc-only" data-slot="sidebar"></div>
+    <div class="tb-group" data-slot="file"></div>
+    <div class="tb-group doc-only" data-slot="nav"></div>
+    <div class="tb-group doc-only" data-slot="zoom"></div>
+    <div class="tb-group doc-only" data-slot="view"></div>
+    <div class="tb-group doc-only" data-slot="annotate"></div>
+    <div class="tb-group doc-only" data-slot="history"></div>
+    <div class="tb-spacer"></div>
+    <div class="tb-group doc-only" data-slot="tools"></div>
+    <div class="tb-group" data-slot="end"></div>
+  </header>
+  <div id="toolOptions" hidden></div>
+
+  <div id="main">
+    <aside id="sidebar" aria-label="Sidebar">
+      <div id="sidebarTabs" role="tablist"></div>
+      <div id="sidebarPanels"></div>
+    </aside>
+    <div id="sidebarResizer" role="separator" aria-orientation="vertical" title="Drag to resize"></div>
+
+    <section id="stage">
+      <div id="viewerContainer" tabindex="0">
+        <div id="viewer" class="pdfViewer"></div>
+      </div>
+
+      <div id="welcome">
+        <div class="welcome-card">
+          <div class="welcome-logo" id="welcomeLogo"></div>
+          <h1>Folio PDF</h1>
+          <p class="welcome-sub">A free, private PDF reader. Your files never leave this device.</p>
+          <button class="btn primary big" id="welcomeOpen" type="button">Open a PDF…</button>
+          <p class="welcome-hint">or drag a PDF file anywhere onto this window</p>
+          <div id="recentBlock" hidden>
+            <div class="recent-head"><h3>Recent files</h3><button type="button" class="link-btn" id="recentClear">Clear</button></div>
+            <ul id="recentList"></ul>
+          </div>
+          <p class="welcome-version" id="welcomeVersion"></p>
+        </div>
+      </div>
+
+      <div id="loading" hidden><div class="spinner"></div></div>
+    </section>
+  </div>
+
+  <div id="dropOverlay" hidden><div>Drop to open</div></div>
+  <div id="toasts" aria-live="polite"></div>
+  <div id="printContainer"></div>
+</body>
+</html>
